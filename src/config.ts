@@ -8,8 +8,15 @@ const atProtoSchema = z.object({
 	password: z.string(),
 });
 
+const aiSchema = z.object({
+	baseUrl: z.string().url().default("https://openrouter.ai/api/v1"),
+	apiKey: z.string(),
+	models: z.union([z.string(), z.array(z.string())]),
+});
+
 const configSchema = z.object({
 	atProto: atProtoSchema,
+	ai: aiSchema,
 });
 
 export type Config = z.infer<typeof configSchema>;
