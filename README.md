@@ -32,21 +32,21 @@ to run your own instance:
   "atProto": {
     "identifier": "your-bot-handle.bsky.social",
     "password": "your-bot-password",
-    "pds": "https://bsky.social"
+    "pds": "https://bsky.social",
   },
   "ai": {
     "baseUrl": "https://openrouter.ai/api/v1",
     "apiKey": "your-api-key",
-    "models": "openai/gpt-4-vision" // make sure to use a model that supports vision
-  }
+    "models": "openai/gpt-4-vision", // make sure to use a model that supports vision
+  },
 }
 ```
 
-by default, altbot uses [openrouter](https://openrouter.ai) because *it's
-cheap* and i'm a cheap bitch. you can however use any other ai provider that
+by default, altbot uses [openrouter](https://openrouter.ai) because _it's
+cheap_ and i'm a cheap bitch. you can however use any other ai provider that
 supports the openai api, such as [ollama](https://ollama.ai).
 
------
+---
 
 ## copying
 

@@ -1,20 +1,28 @@
 {
-	"name": "altbot",
-	"module": "index.ts",
-	"type": "module",
-	"devDependencies": {
-		"@atproto/lex-cli": "^0.7.0",
-		"@types/bun": "latest"
-	},
-	"peerDependencies": {
-		"typescript": "^5.0.0"
-	},
-	"dependencies": {
-		"@atcute/client": "^2.0.8",
-		"@atproto/api": "^0.14.9",
-		"@atproto/lexicon": "^0.4.8",
-		"@skyware/bot": "^0.3.11",
-		"openai": "^4.87.4",
-		"zod": "^3.24.2"
-	}
+  "name": "altbot",
+  "version": "1.0.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:bot": "cd packages/bot && bun run dev",
+    "dev:web": "cd packages/web && bun run dev",
+    "dev": "run-p dev:bot dev:web",
+    "start": "cd packages/bot && bun run start",
+    "lint:oxlint": "oxlint . --fix -D correctness --ignore-path .gitignore",
+    "lint:eslint": "eslint . --fix",
+    "lint": "run-s lint:*",
+    "format": "prettier --write \"**/*.{vue,ts,js,json,md,html,css,scss}\" \"!**/src/lexicons/**\""
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "eslint": "^9.22.0",
+    "eslint-plugin-oxlint": "^0.16.0",
+    "npm-run-all2": "^7.0.2",
+    "oxlint": "^0.16.0",
+    "prettier": "^3.5.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
 }

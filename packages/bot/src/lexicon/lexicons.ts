@@ -6,58 +6,58 @@ import {
   Lexicons,
   ValidationError,
   type ValidationResult,
-} from '@atproto/lexicon'
-import { type $Typed, is$typed, maybe$typed } from './util.js'
+} from "@atproto/lexicon";
+import { type $Typed, is$typed, maybe$typed } from "./util.js";
 
 export const schemaDict = {
   DevLegallyirisAltbotTestDescription: {
     lexicon: 1,
-    id: 'dev.legallyiris.altbot.test.description',
+    id: "dev.legallyiris.altbot.test.description",
     defs: {
       main: {
-        type: 'record',
-        key: 'tid',
+        type: "record",
+        key: "tid",
         record: {
-          type: 'object',
-          required: ['text', 'createdAt', 'post', 'image'],
+          type: "object",
+          required: ["text", "createdAt", "post", "image"],
           properties: {
             text: {
-              type: 'string',
+              type: "string",
               maxLength: 5000,
             },
             post: {
-              type: 'string',
-              format: 'at-uri',
+              type: "string",
+              format: "at-uri",
             },
             image: {
-              type: 'integer',
-              description: 'index of the image in the post',
+              type: "integer",
+              description: "index of the image in the post",
             },
             createdAt: {
-              type: 'string',
-              format: 'datetime',
+              type: "string",
+              format: "datetime",
             },
           },
         },
       },
     },
   },
-} as const satisfies Record<string, LexiconDoc>
-export const schemas = Object.values(schemaDict) satisfies LexiconDoc[]
-export const lexicons: Lexicons = new Lexicons(schemas)
+} as const satisfies Record<string, LexiconDoc>;
+export const schemas = Object.values(schemaDict) satisfies LexiconDoc[];
+export const lexicons: Lexicons = new Lexicons(schemas);
 
 export function validate<T extends { $type: string }>(
   v: unknown,
   id: string,
   hash: string,
   requiredType: true,
-): ValidationResult<T>
+): ValidationResult<T>;
 export function validate<T extends { $type?: string }>(
   v: unknown,
   id: string,
   hash: string,
   requiredType?: false,
-): ValidationResult<T>
+): ValidationResult<T>;
 export function validate(
   v: unknown,
   id: string,
@@ -69,12 +69,12 @@ export function validate(
     : {
         success: false,
         error: new ValidationError(
-          `Must be an object with "${hash === 'main' ? id : `${id}#${hash}`}" $type property`,
+          `Must be an object with "${hash === "main" ? id : `${id}#${hash}`}" $type property`,
         ),
-      }
+      };
 }
 
 export const ids = {
   DevLegallyirisAltbotTestDescription:
-    'dev.legallyiris.altbot.test.description',
-} as const
+    "dev.legallyiris.altbot.test.description",
+} as const;

@@ -1,32 +1,32 @@
 {
-	"lexicon": 1,
-	"id": "dev.legallyiris.altbot.description",
-	"defs": {
-		"main": {
-			"type": "record",
-			"key": "tid",
-			"record": {
-				"type": "object",
-				"required": ["text", "createdAt", "post", "image"],
-				"properties": {
-					"text": {
-						"type": "string",
-						"maxLength": 5000
-					},
-					"post": {
-						"type": "string",
-						"format": "at-uri"
-					},
-					"image": {
-						"type": "integer",
-						"description": "index of the image in the post"
-					},
-					"createdAt": {
-						"type": "string",
-						"format": "datetime"
-					}
-				}
-			}
-		}
-	}
+  "lexicon": 1,
+  "id": "dev.legallyiris.altbot.description",
+  "defs": {
+    "main": {
+      "type": "record",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["text", "createdAt", "post", "image"],
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 5000
+          },
+          "post": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "image": {
+            "type": "integer",
+            "description": "index of the image in the post"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      }
+    }
+  }
 }
