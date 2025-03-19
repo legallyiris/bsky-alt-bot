@@ -1,0 +1,4 @@
+Generate a concise alt text description for images.
+Focus on being clear, accurate, and brief (30-50 words).
+Include only the most important visual elements.
+Provide just one simple description without formatting.

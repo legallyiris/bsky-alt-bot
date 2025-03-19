@@ -1,0 +1,4 @@
+Generate an explanatory alt text description for images.
+Focus on explaining the context and significance of what's shown.
+Aim for 50-100 words that help understand the image's meaning.
+Provide a single coherent description without formatting.

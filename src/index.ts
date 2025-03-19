@@ -1,67 +1,22 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
-
 import { Bot } from "@skyware/bot";
-import { OpenAI } from "openai";
-import { config } from "./config";
 
-const openaiClient = new OpenAI({
-	apiKey: config.ai.apiKey,
-	baseURL: config.ai.baseUrl,
-});
+import { type DescriptionLevel, getAltText } from "./altText";
+import { config } from "./config";
 
 function terminalLink(text: string, url: string): string {
 	return `\u001B[34m\u001B[4m\u001B]8;;${url}\u0007${text}\u001B]8;;\u0007\u001B[0m`;
 }
 
-function loadPrompt(filename: string): string {
-	try {
-		const promptPath = join(process.cwd(), "prompts", filename);
-		return readFileSync(promptPath, "utf8");
-	} catch (error) {
-		console.error(`failed to load prompt: ${error}`);
-		throw new Error("failed to load prompt");
-	}
+function parseDescriptionLevel(text: string): DescriptionLevel {
+	const words = text.toLowerCase().split(/\s+/);
+
+	if (words.includes("explain")) return "explain";
+	if (words.includes("long")) return "long";
+	// if (words.includes("text")) return "text";
+	return "short";
 }
 
-async function getAltText(imageUrl: string): Promise<string> {
-	const systemPrompt = loadPrompt("system.txt");
-	const modelToUse = Array.isArray(config.ai.models)
-		? config.ai.models[0]
-		: config.ai.models;
-
-	const completion = await openaiClient.chat.completions.create({
-		model: modelToUse,
-		stream: false,
-		messages: [
-			{
-				role: "system",
-				content: systemPrompt,
-			},
-			{
-				role: "user",
-				content: [
-					{
-						type: "text",
-						text: "Generate alt text for the following image",
-					},
-					{
-						type: "image_url",
-						image_url: {
-							url: imageUrl,
-						},
-					},
-				],
-			},
-		],
-	});
-
-	return (
-		completion.choices[0]?.message?.content || "unable to generate alt text"
-	);
-}
-
-async function main() {
+export async function main() {
 	const bot = new Bot({ service: config.atProto.pds });
 
 	try {
@@ -71,20 +26,25 @@ async function main() {
 			password: config.atProto.password,
 		});
 		console.log(
-			`✓ logged in as ${bot.profile.did} (${terminalLink(bot.profile.handle, `https://bsky.app/profile/${bot.profile.handle}`)})`,
+			`✓ logged in as ${bot.profile.did} (${terminalLink(
+				bot.profile.handle,
+				`https://bsky.app/profile/${bot.profile.handle}`,
+			)})`,
 		);
 	} catch (error) {
 		console.error("  error logging in", error);
-		process.exit(1);
+		throw error;
 	}
 
 	bot.on("mention", async (mention) => {
 		const parent = await mention.fetchParent();
 		if (!parent || !parent.embed || !parent.embed?.isImages()) return;
 
+		const level = parseDescriptionLevel(mention.text);
 		console.log(
-			`alt text requested for ${terminalLink(parent.uri, parent.uri)}`,
+			`alt text requested (${level}) for ${terminalLink(parent.uri, parent.uri)}`,
 		);
+
 		const images = parent.embed.images;
 		const imageUrls = images
 			.filter(
@@ -94,7 +54,7 @@ async function main() {
 			.map((image) => image.url);
 
 		const imageDescriptions = await Promise.all(
-			imageUrls.map((url) => getAltText(url)),
+			imageUrls.map((url) => getAltText(url, level)),
 		);
 
 		let responseText = "";
@@ -110,6 +70,8 @@ async function main() {
 			text: responseText,
 		});
 	});
+
+	return bot;
 }
 
 main().catch((error) => {

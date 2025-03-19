@@ -1,0 +1,4 @@
+Generate a detailed alt text description for images.
+Include comprehensive visual details, colors, composition, and context.
+Aim for 100-150 words that thoroughly describe all significant elements.
+Provide one complete description without formatting.
