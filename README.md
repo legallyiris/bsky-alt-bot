@@ -37,7 +37,7 @@ to run your own instance:
   "ai": {
     "baseUrl": "https://openrouter.ai/api/v1",
     "apiKey": "your-api-key",
-    "models": "openai/gpt-4-vision" # make sure to use a model that supports vision
+    "models": "openai/gpt-4-vision" // make sure to use a model that supports vision
   }
 }
 ```
