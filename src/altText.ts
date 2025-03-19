@@ -4,6 +4,32 @@ import { join } from "node:path";
 import { OpenAI } from "openai";
 import { config } from "./config";
 
+import type { Bot } from "@skyware/bot";
+
+async function storeLongDescription(
+	agent: Bot,
+	text: string,
+	post: string,
+	imageIndex: number,
+): Promise<string> {
+	const rkey = crypto.randomUUID();
+	const record = {
+		$type: "dev.legallyiris.altbot.description",
+		text,
+		post,
+		image: imageIndex,
+		createdAt: new Date().toISOString(),
+	};
+
+	const response = await agent.putRecord(
+		"dev.legallyiris.altbot.description",
+		record,
+		rkey,
+	);
+
+	return response.uri;
+}
+
 export type DescriptionLevel = "short" | "explain" | "long" | "text";
 
 export function loadPrompt(filename: string): string {
@@ -22,9 +48,12 @@ const openaiClient = new OpenAI({
 });
 
 export async function getAltText(
+	agent: Bot,
 	imageUrl: string,
+	post: string,
+	imageIndex: number,
 	level: DescriptionLevel = "short",
-): Promise<string> {
+): Promise<{ text: string; uri: string }> {
 	const systemPrompt = loadPrompt(`${level}.txt`);
 	const modelToUse = Array.isArray(config.ai.models)
 		? config.ai.models[0]
@@ -61,7 +90,14 @@ export async function getAltText(
 		],
 	});
 
-	return (
-		completion.choices[0]?.message?.content || "unable to generate alt text"
-	);
+	const description =
+		completion.choices[0]?.message?.content || "unable to generate alt text";
+	const uri = await storeLongDescription(agent, description, post, imageIndex);
+
+	const text =
+		description.length > 300 && level !== "short"
+			? `${description.slice(0, 297)}...`
+			: description;
+
+	return { text, uri };
 }

@@ -12,7 +12,7 @@ function parseDescriptionLevel(text: string): DescriptionLevel {
 
 	if (words.includes("explain")) return "explain";
 	if (words.includes("long")) return "long";
-	// if (words.includes("text")) return "text";
+	if (words.includes("text")) return "text";
 	return "short";
 }
 
@@ -47,27 +47,40 @@ export async function main() {
 
 		const images = parent.embed.images;
 		const imageUrls = images
+			.map((image, index) => ({
+				url: image.url,
+				index,
+			}))
 			.filter(
 				(image): image is typeof image & { url: string } =>
 					image.url !== undefined && image.url !== null,
-			)
-			.map((image) => image.url);
+			);
 
 		const imageDescriptions = await Promise.all(
-			imageUrls.map((url) => getAltText(url, level)),
+			imageUrls.map((img) =>
+				getAltText(bot, img.url, parent.uri, img.index, level),
+			),
 		);
 
 		let responseText = "";
 		if (imageDescriptions.length > 1) {
 			responseText = imageDescriptions
-				.map((desc, i) => `description #${i + 1}: ${desc}`)
+				.map((desc, i) => `description #${i + 1}: ${desc.text}`)
 				.join("\n\n");
 		} else {
-			responseText = imageDescriptions[0];
+			responseText = imageDescriptions[0].text;
 		}
 
-		await mention.reply({
+		const reply = await mention.reply({
 			text: responseText,
+		});
+
+		const linksText = imageDescriptions
+			.map((desc, i) => `description #${i + 1}: ${desc.uri}`)
+			.join("\n\n");
+
+		await reply.reply({
+			text: linksText,
 		});
 	});
 
