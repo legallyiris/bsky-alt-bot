@@ -14,9 +14,14 @@ const aiSchema = z.object({
   models: z.union([z.string(), z.array(z.string())]),
 })
 
+const webSchema = z.object({
+  baseUrl: z.string().url(),
+})
+
 const configSchema = z.object({
   atProto: atProtoSchema,
   ai: aiSchema,
+  web: webSchema,
 })
 
 export type Config = z.infer<typeof configSchema>
