@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import DescriptionCard from "@/components/DescriptionCard.vue";
-import ErrorMessage from "@/components/ErrorMessage.vue";
-import LoadingSpinner from "@/components/LoadingSpinner.vue";
-import { useDescriptionsStore } from "@/stores/descriptionStore";
-import { onMounted } from "vue";
+import DescriptionCard from '@/components/DescriptionCard.vue'
+import ErrorMessage from '@/components/ErrorMessage.vue'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
+import { useDescriptionsStore } from '@/stores/descriptionStore'
+import { onMounted } from 'vue'
 
-const store = useDescriptionsStore();
+const store = useDescriptionsStore()
 
 onMounted(() => {
-	store.fetchDescriptions();
-});
+  store.fetchDescriptions()
+})
 </script>
 
 <template>

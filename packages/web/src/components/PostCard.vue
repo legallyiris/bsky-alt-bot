@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { Record as DescriptionRecord } from "@altbot/lexicon";
-import type { AppBskyFeedPost } from "@atcute/client/lexicons";
-import type { AppBskyFeedDefs } from "@atcute/client/lexicons";
+import type { Record as DescriptionRecord } from '@altbot/lexicon'
+import type { AppBskyFeedPost } from '@atcute/client/lexicons'
+import type { AppBskyFeedDefs } from '@atcute/client/lexicons'
 
 defineProps<{
-	post: AppBskyFeedDefs.PostView;
-	relatedDescriptions: DescriptionRecord[];
-}>();
+  post: AppBskyFeedDefs.PostView
+  relatedDescriptions: DescriptionRecord[]
+}>()
 </script>
 
 <template>
@@ -20,7 +20,10 @@ defineProps<{
     </div>
     <div class="post-content">
       <p class="post-text">{{ (post.record as AppBskyFeedPost.Record).text }}</p>
-      <div class="post-media" v-if="relatedDescriptions.length > 0 && post.embed?.$type === 'app.bsky.embed.images#view'">
+      <div
+        class="post-media"
+        v-if="relatedDescriptions.length > 0 && post.embed?.$type === 'app.bsky.embed.images#view'"
+      >
         <div
           v-for="(image, idx) in post.embed?.images"
           :key="idx"

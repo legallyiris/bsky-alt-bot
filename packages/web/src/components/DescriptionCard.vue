@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import type { Record as DescriptionRecord } from "@altbot/lexicon";
-import { computed } from "vue";
-import { getBskyUrl } from "../utils/url";
+import type { Record as DescriptionRecord } from '@altbot/lexicon'
+import { computed } from 'vue'
+import { getBskyUrl } from '../utils/url'
 
 const props = defineProps<{
-	description: DescriptionRecord;
-	showViewLink?: boolean;
-}>();
+  description: DescriptionRecord
+  showViewLink?: boolean
+}>()
 
 const id = computed(() => {
-	return (props.description.uri as string).split("/").pop();
-});
+  return (props.description.uri as string).split('/').pop()
+})
 </script>
 
 <template>

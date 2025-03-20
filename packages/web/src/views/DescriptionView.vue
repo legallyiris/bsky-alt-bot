@@ -1,38 +1,33 @@
 <script setup lang="ts">
-import DescriptionCard from "@/components/DescriptionCard.vue";
-import ErrorMessage from "@/components/ErrorMessage.vue";
-import LoadingSpinner from "@/components/LoadingSpinner.vue";
-import PostCard from "@/components/PostCard.vue";
-import { onBeforeUnmount, onMounted } from "vue";
-import { useRoute } from "vue-router";
-import { useDescriptionsStore } from "../stores/descriptionStore";
-import { usePostsStore } from "../stores/postStore";
+import DescriptionCard from '@/components/DescriptionCard.vue'
+import ErrorMessage from '@/components/ErrorMessage.vue'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
+import PostCard from '@/components/PostCard.vue'
+import { onBeforeUnmount, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { useDescriptionsStore } from '../stores/descriptionStore'
+import { usePostsStore } from '../stores/postStore'
 
-const route = useRoute();
-const descStore = useDescriptionsStore();
-const postStore = usePostsStore();
+const route = useRoute()
+const descStore = useDescriptionsStore()
+const postStore = usePostsStore()
 
 onMounted(async () => {
-	const id = route.params.id as string;
-	await descStore.fetchDescription(id);
+  const id = route.params.id as string
+  await descStore.fetchDescription(id)
 
-	if (
-		descStore.currentDescription?.post &&
-		descStore.currentDescription?.generation
-	) {
-		await postStore.fetchPost(descStore.currentDescription.post);
-		if (descStore.currentDescription?.generation) {
-			await descStore.fetchRelatedDescriptions(
-				descStore.currentDescription.generation,
-			);
-		}
-	}
-});
+  if (descStore.currentDescription?.post && descStore.currentDescription?.generation) {
+    await postStore.fetchPost(descStore.currentDescription.post)
+    if (descStore.currentDescription?.generation) {
+      await descStore.fetchRelatedDescriptions(descStore.currentDescription.generation)
+    }
+  }
+})
 
 onBeforeUnmount(() => {
-	descStore.clearCurrentDescription();
-	postStore.clearPost();
-});
+  descStore.clearCurrentDescription()
+  postStore.clearPost()
+})
 </script>
 
 <template>
@@ -56,9 +51,9 @@ onBeforeUnmount(() => {
     />
 
     <div v-else class="descriptions">
-    <DescriptionCard
-      v-for="desc in descStore.relatedDescriptions"
-      :key="desc.image"
+      <DescriptionCard
+        v-for="desc in descStore.relatedDescriptions"
+        :key="desc.image"
         :description="desc"
       />
     </div>
@@ -92,11 +87,9 @@ onBeforeUnmount(() => {
   }
 }
 
-
 .descriptions {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
 }
-
 </style>
