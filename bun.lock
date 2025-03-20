@@ -35,10 +35,19 @@
         "typescript": "^5.0.0",
       },
     },
+    "packages/lexicon": {
+      "name": "@altbot/lexicon",
+      "version": "0.0.0",
+      "devDependencies": {
+        "typescript": "~5.8.0",
+      },
+    },
     "packages/web": {
       "name": "@altbot/web",
       "version": "0.0.0",
       "dependencies": {
+        "@altbot/lexicon": "workspace:*",
+        "@atcute/bluesky": "^1.0.14",
         "pinia": "^3.0.1",
         "vue": "^3.5.13",
         "vue-router": "^4.5.0",
@@ -67,6 +76,8 @@
   },
   "packages": {
     "@altbot/bot": ["@altbot/bot@workspace:packages/bot"],
+
+    "@altbot/lexicon": ["@altbot/lexicon@workspace:packages/lexicon"],
 
     "@altbot/web": ["@altbot/web@workspace:packages/web"],
 

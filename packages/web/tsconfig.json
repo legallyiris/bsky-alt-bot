@@ -1,12 +1,15 @@
 {
-	"files": [],
-	"extends": "../../tsconfig.json",
-	"references": [
-		{
-			"path": "./tsconfig.node.json"
-		},
-		{
-			"path": "./tsconfig.app.json"
-		}
-	]
+  "files": [],
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "types": ["@atcute/bluesky/lexicons"]
+  },
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ]
 }

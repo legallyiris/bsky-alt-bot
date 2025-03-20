@@ -1,19 +1,18 @@
-@use "./theme";
+@use './theme';
 
 * {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html,
 body {
-	width: 100%;
-	height: 100%;
-	padding: 0;
-	margin: 0;
-	font-family: "Roboto", sans-serif;
-	color: hsl(var(--text));
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  color: hsl(var(--text));
 }
 
 body {
-	background-color: hsl(var(--mantle));
+  background-color: hsl(var(--mantle));
 }

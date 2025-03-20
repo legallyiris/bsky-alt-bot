@@ -7,10 +7,10 @@
 		"dev:web": "cd packages/web && bun run dev",
 		"dev": "run-p dev:bot dev:web",
 		"start": "cd packages/bot && bun run start",
-		"lint:oxlint": "oxlint . --fix -D correctness --ignore-path .gitignore",
-		"lint:eslint": "eslint . --fix",
+		"lint:oxlint": "oxlint . --fix -D correctness --ignore-path .gitignore --ignore-pattern '**/packages/lexicon/**'",
+		"lint:eslint": "eslint . --fix --ignore-path .gitignore",
 		"lint": "run-s lint:*",
-		"format": "prettier --write \"**/*.{vue,ts,js,json,md,html,css,scss}\" \"!**/src/lexicons/**\""
+		"format": "prettier --write \"**/*.{vue,ts,js,json,md,html,css,scss}\" \"!packages/lexicon/**\""
 	},
 	"devDependencies": {
 		"@types/bun": "latest",
