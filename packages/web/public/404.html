@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <title>redirecting...</title>
     <script>
-      const path = window.location.pathname
+      const path = window.location.pathname.replace(/([^:])\/+/g, '$1/')
       sessionStorage.setItem('redirect', path)
       window.location.replace('/?redirect=' + encodeURIComponent(path))
     </script>

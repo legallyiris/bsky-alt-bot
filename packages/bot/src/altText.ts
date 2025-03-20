@@ -25,7 +25,8 @@ async function storeLongDescription(
 
   const response = await agent.putRecord('dev.legallyiris.altbot.description', record, rkey)
 
-  return `${config.web.baseUrl}/description/${rkey}`
+  const baseUrl = config.web.baseUrl.replace(/\/+$/, '')
+  return `${baseUrl}/description/${rkey}`
 }
 
 export type DescriptionLevel = 'short' | 'explain' | 'long' | 'text'
